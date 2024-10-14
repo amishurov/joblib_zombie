@@ -1,9 +1,9 @@
 import clearml
 
 project = 'Demo'
-task_name = 'joblib zomnie'
+task_name = 'joblib zombie'
 docker_image = 'registry.pyn.ru/python3.9-kardinal-clearml:2024.03.11'
-repo = 'git@github.com:/hhru/amishurov/joblib_zomnie'
+repo = 'git@github.com:/amishurov/joblib_zombie'
 
 task = clearml.Task.init(project_name=project, task_name=task_name)
 task.set_base_docker(
