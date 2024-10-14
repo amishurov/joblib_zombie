@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "joblib-zombie"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+joblib = "0.17.0"
+clearml = "1.14.1"
+notebook = "6.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
