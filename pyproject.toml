@@ -12,6 +12,7 @@ clearml = "1.14.1"
 notebook = "6.0.0"
 tqdm = "4.63.1"
 torch = "1.8.1"
+numpy = ">=1.23.0,<1.24.0"
 
 [build-system]
 requires = ["poetry-core"]
