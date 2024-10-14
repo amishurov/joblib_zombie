@@ -1,6 +1,30 @@
+import contextlib
+from typing import Any
+
+import joblib
 from joblib import delayed
 import time
 from joblib import Parallel as JoblibParallel
+from tqdm import tqdm
+
+@contextlib.contextmanager
+def tqdm_joblib(tqdm_object: Any) -> Any:
+    """Context manager to patch joblib to report into tqdm progress bar given as argument"""
+    class TqdmBatchCompletionCallback(joblib.parallel.BatchCompletionCallBack):
+        def __init__(self, *args: Any, **kwargs: Any) -> None:
+            super().__init__(*args, **kwargs)
+
+        def __call__(self, *args: Any, **kwargs: Any) -> Any:
+            tqdm_object.update(n=self.batch_size)
+            return super().__call__(*args, **kwargs)
+
+    old_batch_callback = joblib.parallel.BatchCompletionCallBack
+    joblib.parallel.BatchCompletionCallBack = TqdmBatchCompletionCallback
+    try:
+        yield tqdm_object
+    finally:
+        joblib.parallel.BatchCompletionCallBack = old_batch_callback
+        tqdm_object.close()
 
 
 
@@ -17,9 +41,11 @@ def nope_function(task):
     else:
         time.sleep(task)
 
+
 def main():
     jobs = [delayed(nope_function)(i) for i in range(8)]
-    Parallel(n_jobs=8)(jobs)
+    with tqdm_joblib(tqdm(desc="debug joblib", total=len(jobs))):
+        Parallel(n_jobs=8)(jobs)
 
 
 if __name__ == "__main__":
