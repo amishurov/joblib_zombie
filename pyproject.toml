@@ -11,8 +11,12 @@ joblib = "0.17.0"
 clearml = "1.14.1"
 notebook = "6.0.0"
 tqdm = "4.63.1"
-torch = "1.8.1"
-numpy = ">=1.23.0,<1.24.0"
+
+[[tool.poetry.source]]
+name = "pypi_cache"
+url = "https://proxpi.pyn.ru/index"
+default = false
+secondary = true
 
 [build-system]
 requires = ["poetry-core"]
